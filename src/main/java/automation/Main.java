@@ -65,6 +65,8 @@ public class Main {
         
         WebDriver driver = new ChromeDriver();
 
+        prep();
+
         visit(driver, site);
 
         search(driver, searchCssSelector, searchQuery, searchSubmitCssSelector);
