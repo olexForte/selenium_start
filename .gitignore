@@ -31,3 +31,5 @@ target
 .classpath
 .project
 chromedriver
+.DS_Store
+.gitignore
