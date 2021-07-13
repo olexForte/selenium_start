@@ -1,49 +1,61 @@
 package automation;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-public class Main {
+class TestDriver extends ChromeDriver {
 
     //Declaring variables (should also be good for test cases)
 
-    static String site = "https://www.costco.com";
+    String targetSite = "https://www.costco.com";
 
-    static String searchCssSelector = "search-field";
+    String searchCssSelector = "#search-field";
 
-    static String searchQuery = "plastic spoon";
+    String searchQuery = "plastic spoon";
     
-    static String searchSubmitCssSelector = "button.btn.search-ico-button";
+    String searchSubmitCssSelector = "button.btn.search-ico-button";
     
-    static String verifyCssSelector = "#search-results > div.product-list.grid > div:nth-child(1) > div.product-tile-set > div.thumbnail > div.caption.link-behavior > div.caption > span > a";
+    String verifyCssSelector = "#search-results > div.product-list.grid > div:nth-child(1) > div.product-tile-set > div.thumbnail > div.caption.link-behavior > div.caption > span > a";    
 
     //Declaring methods (good for JUnit because we can debug methods individually)
 
-    public static void prep (){
+    public void prep (){
         System.setProperty("webdriver.chrome.driver", "/Users/benjaminlaird/Desktop/ForteWorkspace/selenium_start/chromedriver");
     }
 
-    public static void visit (WebDriver driver, String site){
-        driver.get(site);
+    public void visit (String site){
+        get(site);
     }
 
-    public static void typeIn (WebDriver driver, String cssSelector, String query){
-        driver.findElement(By.cssSelector(cssSelector)).sendKeys(query);
+    public void typeIn (String cssSelector, String query){
+        findElement(By.cssSelector(cssSelector)).sendKeys(query);
     }
 
-    public static void clickOn (WebDriver driver, String cssSelector){
-        driver.findElement(By.cssSelector(cssSelector)).click();
+    public void clickOn (String cssSelector){
+        findElement(By.cssSelector(cssSelector)).click();
     }
 
-    public static void search (WebDriver driver, String searchCssSelector, String searchQuery, String searchSubmitCssSelector){
-        typeIn(driver, searchCssSelector, searchQuery);
-        clickOn(driver, searchSubmitCssSelector);
+    public void search (String searchCssSelector, String searchQuery, String searchSubmitCssSelector){
+        typeIn(searchCssSelector, searchQuery);
+        clickOn(searchSubmitCssSelector);
     }
 
-    public static String verifyIsVisible (WebDriver driver, String verifyCssSelector){
+    public void holdOn (long milliseconds){
+        System.out.println("Waiting...");
+        try
+        {
+            Thread.sleep(milliseconds);
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
+        System.out.println("Running...");
+    }
+
+    public String verifyIsVisible (String verifyCssSelector){
         try {
-            boolean isVisible = driver.findElement(By.cssSelector(verifyCssSelector)).isDisplayed();
+            boolean isVisible = findElement(By.cssSelector(verifyCssSelector)).isDisplayed();
             if(isVisible){
                 return "The element is visible. Success!";
             } else {
@@ -54,25 +66,31 @@ public class Main {
         }
     }
 
-    public static void end (WebDriver driver){
-        driver.close();
-        driver.quit();
+    public void end (){
+        close();
+        quit();
     }
 
-    //Declaring main (which combines unit methods and unit variables together)
+}
+
+public class Main {
 
     public static void main(String[] args) {
         
-        WebDriver driver = new ChromeDriver();
+        TestDriver driver = new TestDriver();
 
-        prep();
+        driver.prep();
 
-        visit(driver, site);
+        driver.visit(driver.targetSite);
 
-        search(driver, searchCssSelector, searchQuery, searchSubmitCssSelector);
+        driver.holdOn(1000);
 
-        System.out.println(verifyIsVisible(driver, verifyCssSelector));
+        driver.search(driver.searchCssSelector, driver.searchQuery, driver.searchSubmitCssSelector);
 
-        end(driver);
+        driver.holdOn(5000);
+
+        System.out.println(driver.verifyIsVisible(driver.verifyCssSelector));
+
+        driver.end();
     }
 }
