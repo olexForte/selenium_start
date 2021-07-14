@@ -32,4 +32,4 @@ target
 .project
 chromedriver
 .DS_Store
-.gitignore
+.vscode
