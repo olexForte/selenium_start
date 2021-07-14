@@ -28,8 +28,13 @@ hs_err_pid*
 .idea
 target
 
+# IntelliJ IDEA artifacts
 .classpath
 .project
+
+# Chromedriver used to drive tests
 chromedriver
+
+# VSCode arifacts
 .DS_Store
 .vscode
