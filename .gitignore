@@ -32,9 +32,10 @@ target
 .classpath
 .project
 
-# Chromedriver used to drive tests
+#drivers and drivers folder
+drivers
 chromedriver
 
-# VSCode arifacts
+# VSCode and system arifacts
 .DS_Store
 .vscode
