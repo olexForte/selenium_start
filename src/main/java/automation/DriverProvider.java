@@ -2,56 +2,48 @@ package automation;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.safari.SafariDriver;
 
 /**
- * A class meant to initialize a WebDriver for a given browser and use all the native browser commands for it.
+ * A class meant to initialize a WebDriver for a given browser and use all native browser commands for it.
  */
 public class DriverProvider {
 
     String objBrowser;
 
     /**
-     * Instantiates a new WebDriver within a specified browser. When blank, it defaults to the value defined in {@link #objBrowser}
-     * @param browser The browser you would like to use. It supports "chrome", "firefox", "safari", and "ie". It defaults to Chrome.
+     * Instantiates a new WebDriver within a specified browser.
+     * @param browser (Optional) The browser you would like to use. It supports "chromeCap" for Chrome, "chromeDecap" for headless Chrome, "firefox", "safari", and "ie". (Default) non-headless Chrome.
      */
-    public DriverProvider (String browser){
-        objBrowser = browser;
-    }
+    public DriverProvider (String browser){objBrowser = browser;}
     /**
-     * Defaults to "chrome".
+     * Instantiates a new WebDriver within a specified browser. (Default) non-headless Chrome.
      */
-    public DriverProvider (){
-        objBrowser = "chrome";
-    }
+    public DriverProvider (){objBrowser = "chromeCap";}
 
     /**
-     * Instantiates a new WebDriver within a specified browser. When blank, it defaults to the value defined in {@link #objBrowser}
-     * @param browser The browser you would like to use. It supports "chrome", "firefox", "safari", and "ie". It defaults to Chrome.
+     * Instantiates a new WebDriver within a specified browser. Defaults to the value defined in {@link #objBrowser}.
+     * @param browser (Optional) The browser you would like to use. It supports "chromeCap" for Chrome, "chromeDecap" for headless Chrome, "firefox", "safari", and "ie". (Default) non-headless Chrome.
      * @return A WebDriver object of the browser
      */
     public WebDriver getDriver (String browser){
         
         WebDriver driver;
 
+        //Setting default browser settings.
         String driverKey = "chrome";
 
         String driverVal = "chromedriver";
 
         //answer found here: https://artoftesting.com/launching-browsers-in-selenium
-
         switch (browser){
-            case "chrome": {break;}
             case "firefox": {
                 //using geckodriver
                 driverKey = "gecko";
                 driverVal = "geckodriver";
-                break;
-            }
-            case "safari": {
-                driverKey = "safari";
                 break;
             }
             case "ie": {
@@ -63,7 +55,7 @@ public class DriverProvider {
             default: break;
         }
 
-        if (!driverKey.equals("safari")){
+        if (!browser.equals("safari")){
 
             String key = "webdriver.%s.driver".formatted(driverKey);
 
@@ -72,19 +64,27 @@ public class DriverProvider {
             System.setProperty(key, val);
         }
 
-        switch (browser){
-            case "chrome": driver = new ChromeDriver(); break;
-            case "firefox": driver = new FirefoxDriver(); break;
-            case "safari": driver = new SafariDriver(); break;
-            case "ie": driver = new InternetExplorerDriver(); break;
-            default: driver = new ChromeDriver(); break;
+        ChromeOptions options = new ChromeOptions();
+
+        if (browser.equals("chromeDecap")){
+            options.addArguments("--headless");     
+            options.addArguments("--disable-gpu");
+            options.addArguments("--window-size=1400,800");
         }
+
+        driver = switch (browser) {
+            case "chromeDecap" -> new ChromeDriver(options);
+            case "firefox" -> new FirefoxDriver();
+            case "safari" -> new SafariDriver();
+            case "ie" -> new InternetExplorerDriver();
+            default -> new ChromeDriver();
+        };
 
         return driver;
     }
     /**
-     * Defaults to the {@link #objBrowser} value defined when the class was instantiated
-     * @return The WebDriver of the {@link #objBrowser}
+     * Defaults to the {@link #objBrowser} value defined when the class was instantiated.
+     * @return The WebDriver of the {@link #objBrowser}.
      */
     public WebDriver getDriver (){
         return getDriver(objBrowser);
