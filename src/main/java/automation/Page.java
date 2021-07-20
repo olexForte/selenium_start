@@ -15,7 +15,7 @@ public class Page {
     /**
      * The initializer for the Page class.
      * @param site The site you would like to open.
-     * @param browser (Optional) The browser you would like to use. Defaults to the default defined in the {@link DriverProvider} class.
+     * @param browser (Optional) The browser you would like to use. (Default) The default defined in the {@link DriverProvider} class.
      */
     public Page (String site, String browser){
         driver = new DriverProvider(browser).getDriver();
@@ -34,13 +34,13 @@ public class Page {
 
     /**
      * Visit a website.
-     * @param site (Optional) The site you would like to visit. Defaults to the site defined in the {@link #objSite} variable.
+     * @param site (Optional) The site you would like to visit. (Default) The site defined in the {@link #objSite} variable.
      */
     public void visit (String site){
         driver.get(site);
     }
     /**
-     * Visit a website. Defaults to the site defined in the {@link #objSite} variable.
+     * Visit a website. (Default) The site defined in the {@link #objSite} variable.
      */
     public void visit (){
         driver.get(objSite);
