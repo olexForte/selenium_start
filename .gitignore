@@ -39,3 +39,4 @@ chromedriver
 # VSCode and system arifacts
 .DS_Store
 .vscode
+.settings
