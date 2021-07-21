@@ -8,9 +8,9 @@ import org.openqa.selenium.WebDriver;
  */
 public class Page {
 
-    String objSite;
+    public String objSite;
 
-    WebDriver driver;
+    public WebDriver driver;
 
     /**
      * The initializer for the Page class.
