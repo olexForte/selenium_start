@@ -78,7 +78,7 @@ public class Page {
         {
             Thread.currentThread().interrupt();
         }
-        System.out.println("Running...");
+        System.out.println("Waited for %s ms. Running...".formatted(milliseconds));
     }
 
     /**

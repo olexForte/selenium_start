@@ -1,12 +1,14 @@
 package automation;
 
+import org.openqa.selenium.By;
+
 public class SearchPage extends Page {
     
-    String objSearchCssSelector;
+    public String objSearchCssSelector;
 
-    String objQuery;
+    public String objQuery;
 
-    String objSubmitCssSelector;
+    public String objSubmitCssSelector;
 
     /**
      * Initializes a Page equipped with search features.
@@ -53,7 +55,32 @@ public class SearchPage extends Page {
      * @param query The string you would like to type.
      */
     public void search (String query){
+        holdOn(5000);
         typeIn(objSearchCssSelector, query);
         clickOn(objSubmitCssSelector);
+    }
+
+    /**
+     * Verify that a particular element on a page is displayed to the browser.
+     * @param verifyCssSelector The CSS selector targeting the element you would like to verify.
+     * @return An exit code from 0 to 2. 0 means the element is displayed. 1 means the element is not displayed. 2 means the element could not be found.
+     */
+    public int verify (String verifyCssSelector){
+        
+        int exitCode;
+
+        try {
+            boolean isVisible = driver.findElement(By.cssSelector(verifyCssSelector)).isDisplayed();
+            
+            if (isVisible){
+                exitCode = 0;
+            } else {
+                exitCode = 1;
+            }
+        } catch (Exception noSuchElemeException) {
+            exitCode = 2;
+        }
+
+        return exitCode;
     }
 }
