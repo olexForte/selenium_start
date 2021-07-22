@@ -57,9 +57,9 @@ public class DriverProvider {
 
         if (!browser.equals("safari")){
 
-            String key = String.format("webdriver.%s.driver", driverKey);
+            String key = "webdriver.%s.driver".formatted(driverKey);
 
-            String val = String.format("/Users/benjaminlaird/Desktop/ForteWorkspace/selenium_start/drivers/%s", driverVal);
+            String val = "/Users/benjaminlaird/Desktop/ForteWorkspace/selenium_start/drivers/%s".formatted(driverVal);
 
             System.setProperty(key, val);
         }
@@ -72,13 +72,12 @@ public class DriverProvider {
             options.addArguments("--window-size=1400,800");
         }
 
-        switch (browser) {
-            case "chromeDecap" :
-                driver = new ChromeDriver(options); break;
-            case "firefox" : driver = new FirefoxDriver(); break;
-            case "safari" : driver = new SafariDriver(); break;
-            case "ie" : driver = new InternetExplorerDriver(); break;
-            default : driver = new ChromeDriver();
+        driver = switch (browser) {
+            case "chromeDecap" -> new ChromeDriver(options);
+            case "firefox" -> new FirefoxDriver();
+            case "safari" -> new SafariDriver();
+            case "ie" -> new InternetExplorerDriver();
+            default -> new ChromeDriver();
         };
 
         return driver;
