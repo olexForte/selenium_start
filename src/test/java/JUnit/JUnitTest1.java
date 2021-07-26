@@ -1,8 +1,10 @@
+package JUnit;
+
 import org.junit.jupiter.api.*;
 
 import automation.*;
 
-public class Test1 {
+public class JUnitTest1 {
     
     static SearchPage page;
 
@@ -21,6 +23,7 @@ public class Test1 {
         page.search(page.objQuery);
 
         Integer expectExitCode = 0;
+
         Integer actualExitCode = page.verify("#search-results > div.product-list.grid > div:nth-child(1) > div.product-tile-set > div.thumbnail > div.caption.link-behavior > div.caption > span > a");
         
         Assertions.assertEquals(expectExitCode, actualExitCode);
