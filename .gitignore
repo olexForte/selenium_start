@@ -40,3 +40,6 @@ chromedriver
 .DS_Store
 .vscode
 .settings
+
+# Playground files
+Playground*.java
