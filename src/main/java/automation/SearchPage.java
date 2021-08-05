@@ -24,6 +24,7 @@ public class SearchPage extends Page {
     /**
      * Initialize a Page equipped with search features. (Default) The default defined in the {@link DriverProvider} class.
      * @param site The site you would like to open.
+     * @param browserMode (Optional) The browser you would like to use. (Default) The default defined in the {@link DriverProvider} class.
      */
     public SearchPage (String site, String browserMode){
         super(site, browserMode);
@@ -35,7 +36,7 @@ public class SearchPage extends Page {
     /**
      * Initializes a Page equipped with search features.
      * @param site The site you would like to open.
-     * @param browser (Optional) The browser you would like to use. (Default) The default defined in the {@link DriverProvider} class.
+     * @param browserMode (Optional) The browser you would like to use. (Default) The default defined in the {@link DriverProvider} class.
      * @param searchCssSelector (Optional) The CSS selector targeting the search field you would like to type to. (Default) The "Placeholder" string.
      * @param query (Optional) The string you would like to type. (Default) The "Placeholder" string.
      * @param submitCssSelector (Optional) The CSS selector targeting the submit button. (Default) The "Placeholder" string.
@@ -47,18 +48,31 @@ public class SearchPage extends Page {
         objQuery = query;
         objSubmitCssSelector = submitCssSelector;
     }
+    
     /**
      * Initialize a Page equipped with search features. (Default) The default defined in the {@link DriverProvider} class.
      * @param site The site you would like to open.
      * @param searchCssSelector (Optional) The CSS selector targeting the search field you would like to type to. (Default) The "Placeholder" string.
-     * @param query (Optional) The string you would like to type. (Default) The "Placeholder" string.
      * @param submitCssSelector (Optional) The CSS selector targeting the submit button. (Default) The "Placeholder" string.
      */
-    public SearchPage (String site, String searchCssSelector, String query, String submitCssSelector){
+    public SearchPage (String site, String searchCssSelector, String submitCssSelector){
         super(site);
 
         objSearchCssSelector = searchCssSelector;
-        objQuery = query;
+        objQuery = "Placeholder";
+        objSubmitCssSelector = submitCssSelector;
+    }
+    /**
+     * Initialize a Page equipped with search features. (Default) The default defined in the {@link DriverProvider} class.
+     * @param site The site you would like to open.
+     * @param searchCssSelector (Optional) The CSS selector targeting the search field you would like to type to. (Default) The "Placeholder" string.
+     * @param submitCssSelector (Optional) The CSS selector targeting the submit button. (Default) The "Placeholder" string.
+     */
+    public SearchPage (String site, String browserMode, String searchCssSelector, String submitCssSelector){
+        super(site,browserMode);
+
+        objSearchCssSelector = searchCssSelector;
+        objQuery = "Placeholder";
         objSubmitCssSelector = submitCssSelector;
     }
     
@@ -69,6 +83,7 @@ public class SearchPage extends Page {
      * @param submitCssSelector (Optional) The CSS selector targeting the submit button. (Default) The default defined in the {@link #objSubmitCssSelector} variable.
      */
     public void search (String searchCssSelector, String query, String submitCssSelector){
+        holdOn(5000);
         typeIn(searchCssSelector, query);
         clickOn(submitCssSelector);
     }

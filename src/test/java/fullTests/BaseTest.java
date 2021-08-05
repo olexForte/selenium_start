@@ -23,7 +23,7 @@ public class BaseTest {
 
     String[] filenames = {"Costco","Walmart"};
 
-    String[] defaultProps = {"targetSite","browserMode"};
+    String[] defaultProps = {"targetSite","browserMode","searchCssSelector","searchSubmitCssSelector"};
 
     int dPIndex = defaultProps.length;
 
@@ -61,7 +61,7 @@ public class BaseTest {
 
         Object[] data = (Object[]) testArgs[0];
 
-        page = new SearchPage((String) data[0], (String) data[1]);
+        page = new SearchPage((String) data[0], (String) data[1], (String) data[2],(String) data[3]);
     }
 
     @Test(
@@ -75,7 +75,14 @@ public class BaseTest {
         assertEquals((String) data[dPIndex + 0], data[dPIndex + 1], page.driver.getTitle());
     }
 
+    /**
+     * Searches the page for multiple objects.
+     * @param data The data to be extracted from the property file.
+     * @see #getFromPropFile(Method)
+     * @see automation.Page#typeIn(String, String) typeIn method. Test is disabled because the method throws an exception that it cannot find {"method":"css selector", "selector":"[css selector string correctly passed to method]"}.
+     */
     @Test(
+        description = "Searches the page for multiple objects.",
         dataProvider = "getFromPropFiles",
         enabled = false,
         groups = {
@@ -96,15 +103,21 @@ public class BaseTest {
 
             page.visit();
             
-            page.search(searchQueries[i]);
-            //TODO: Findelement in typein method likely throwing a NoSuchElement exception but doesn't actually seem to throw that ex.
+            try {
+                page.search(searchQueries[i]);
+            } catch (org.openqa.selenium.NoSuchElementException exception) {
+                
+                String message = exception.getMessage();
+                
+                searchTests.assertEquals(2, 0, "The search method couldn't find what you were looking for! The exception says: %s".formatted(message));
+            }
 
             Integer actualExitCode = page.verify("#%s".formatted(verifyCssSelectors[i]));
 
-            searchTests.assertEquals(expectExitCodes[i], actualExitCode);
+            searchTests.assertEquals(actualExitCode.toString(), expectExitCodes[i], "Exit codes didn't match on a search!");
         }
 
-        searchTests.assertAll("One of the search tests failed");
+        searchTests.assertAll("One of the search tests failed!");
     }
 
     @AfterMethod
