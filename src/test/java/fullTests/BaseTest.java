@@ -79,45 +79,47 @@ public class BaseTest {
      * Searches the page for multiple objects.
      * @param data The data to be extracted from the property file.
      * @see #getFromPropFile(Method)
-     * @see automation.Page#typeIn(String, String) typeIn method. Test is disabled because the method throws an exception that it cannot find {"method":"css selector", "selector":"[css selector string correctly passed to method]"}.
      */
     @Test(
         description = "Searches the page for multiple objects.",
         dataProvider = "getFromPropFiles",
-        enabled = false,
         groups = {
+            "searchExpectExitCode",
             "searchQueries",
             "verifyCssSelectors",
-            "expectExitCodes"
+            "verifyExpectExitCodes"
         }
     )
     public void searchTest (Object[] data){
         
         SoftAssert searchTests = new SoftAssert();
 
-        String[] searchQueries = ((String) data[dPIndex + 0]).split(",\s");
-        String[] verifyCssSelectors = ((String) data[dPIndex + 1]).split(",\s");
-        String[] expectExitCodes = ((String) data[dPIndex + 2]).split(",\s");
+        int searchExpectExitCode = Integer.parseInt((String) data[dPIndex + 0]);
+        String[] searchQueries = ((String) data[dPIndex + 1]).split(",\s");
+        String[] verifyCssSelectors = ((String) data[dPIndex + 2]).split(",\s");
+        String[] expectExitCodes = ((String) data[dPIndex + 3]).split(",\s");
 
         for (int i = 0; i < verifyCssSelectors.length && i < expectExitCodes.length; i++){
 
             page.visit();
             
             try {
+                
                 page.search(searchQueries[i]);
+
+                Integer actualExitCode = page.verify(verifyCssSelectors[i]);
+
+                searchTests.assertEquals(actualExitCode.toString(), expectExitCodes[i], "Exit codes didn't match on a search!\nWebsite: %s\nSearch Query: %s\nError: ".formatted(data[0],searchQueries[i]));
+
             } catch (org.openqa.selenium.NoSuchElementException exception) {
                 
                 String message = exception.getMessage();
                 
-                searchTests.assertEquals(2, 0, "The search method couldn't find what you were looking for! The exception says: %s".formatted(message));
+                searchTests.assertEquals(2, searchExpectExitCode, "The search method couldn't find what you were looking for! The exception says:\n\"(%s)\"\n".formatted(message));
             }
-
-            Integer actualExitCode = page.verify("#%s".formatted(verifyCssSelectors[i]));
-
-            searchTests.assertEquals(actualExitCode.toString(), expectExitCodes[i], "Exit codes didn't match on a search!");
         }
 
-        searchTests.assertAll("One of the search tests failed!");
+        searchTests.assertAll("One or more of the search tests failed!");
     }
 
     @AfterMethod
