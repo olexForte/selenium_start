@@ -38,10 +38,14 @@ public class EdgeTest {
         Configuration.browser = "edge";
 
         Configuration.headless = true;
+        
+
+        Configuration.reportsFolder = ".";
+        Configuration.screenshots = true;
 
         Selenide.open("https://costco.com");
 
-        assertEquals("Costco was not visited!", "Welcome to Costco Wholesale", Selenide.webdriver().object().getTitle());
+        assertEquals("Welcome to Costco Wholesale", Selenide.title(), "Costco was not visited!");
         Selenide.closeWebDriver();
 
     }
