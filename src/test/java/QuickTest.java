@@ -7,13 +7,13 @@ public class QuickTest {
     
     static int val1, val2;
 
-    @BeforeAll
+    //@BeforeAll
     public static void setUp (){
         val1 = 2;
         val2 = 3;
     }
 
-    @Test
+    //@Test
     public void testAdd (){
         double result = val1 + val2;
         assertTrue(result == 5, "Result is not equal to 5.");

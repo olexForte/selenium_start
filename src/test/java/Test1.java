@@ -9,17 +9,17 @@ public class Test1 {
     
     static Page page;
 
-    @BeforeEach
+    //@BeforeEach
     public static void setup(){
-        page = new Page("https://costco.com", "chromeCap");
+        page = new Page("https://costco.com", "edge");
     }
 
-    @Test
+    //@Test
     public void visit (){
         assertEquals("Costco was not visited!", "Welcome to Costco Wholesale", page.driver.getTitle());
     }
 
-    @AfterEach
+    //@AfterEach
     public static void teardown (){
         page.stop();
     }
