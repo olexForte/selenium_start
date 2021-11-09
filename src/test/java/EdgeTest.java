@@ -38,7 +38,8 @@ public class EdgeTest {
         Configuration.browser = "edge";
 
         Configuration.headless = true;
-        
+
+        System.setProperty("webdriver.edge.driver", "./msedgedriver");
 
         Configuration.reportsFolder = ".";
         Configuration.screenshots = true;
