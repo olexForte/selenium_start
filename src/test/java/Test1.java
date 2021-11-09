@@ -1,5 +1,5 @@
-import static org.junit.Assert.assertEquals;
-import org.junit.Test;
+//import static org.junit.Assert.assertEquals;
+//import org.junit.Test;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 
@@ -16,7 +16,7 @@ public class Test1 {
 
     //@Test
     public void visit (){
-        assertEquals("Costco was not visited!", "Welcome to Costco Wholesale", page.driver.getTitle());
+        //assertEquals("Costco was not visited!", "Welcome to Costco Wholesale", page.driver.getTitle());
     }
 
     //@AfterEach
