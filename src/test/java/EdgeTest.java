@@ -37,7 +37,7 @@ public class EdgeTest {
 
         Configuration.browser = "edge";
 
-        Configuration.headless = false;
+        Configuration.headless = true;
 
         Selenide.open("https://costco.com");
 
