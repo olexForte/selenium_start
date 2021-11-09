@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.ie.InternetExplorerDriver;
 import org.openqa.selenium.logging.LogType;
 import org.openqa.selenium.logging.LoggingPreferences;
@@ -33,21 +34,41 @@ public class EdgeTest {
 //                WebDriverManager.edgedriver().setup();
 ////                WebDriverManager.iedriver().version().setup();
 //
-//        WebDriver driver =  new EdgeDriver();
+        EdgeOptions opt = new EdgeOptions();
+        opt.setCapability("headless", true);
+        opt.setCapability("remote-debugging-port", 185);
+                System.setProperty("webdriver.edge.driver", "./msedgedriver");
+        WebDriver driver =  new EdgeDriver(opt);
 
-        Configuration.browser = "edge";
 
-        Configuration.headless = true;
+        driver.get("https://costco.com");
+        assertEquals("Costco was not visited!", "Welcome to Costco Wholesale", driver.getTitle());
+        driver.close();
+        driver.quit();
 
-        System.setProperty("webdriver.edge.driver", "./msedgedriver");
-
-        Configuration.reportsFolder = ".";
-        Configuration.screenshots = true;
-
-        Selenide.open("https://costco.com");
-
-        assertEquals("Welcome to Costco Wholesale", Selenide.title(), "Costco was not visited!");
-        Selenide.closeWebDriver();
+//        Configuration.browser = "edge";
+//
+//        Configuration.headless = true;
+//
+//        EdgeOptions opt = new EdgeOptions();
+//
+//
+//        DesiredCapabilities caps = new DesiredCapabilities();//DesiredCapabilities.firefox();
+//        caps.setCapability();
+//
+//        Configuration.browserCapabilities = new DesiredCapabilities();
+//
+//        "--remote-debugging-port=<port>";
+//        "--headless";
+//        System.setProperty("webdriver.edge.driver", "./msedgedriver");
+//
+//        Configuration.reportsFolder = ".";
+//        Configuration.screenshots = true;
+//
+//        Selenide.open("https://costco.com");
+//
+//        assertEquals("Welcome to Costco Wholesale", Selenide.title(), "Costco was not visited!");
+//        Selenide.closeWebDriver();
 
     }
 }
