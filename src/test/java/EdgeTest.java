@@ -36,7 +36,8 @@ public class EdgeTest {
 //
         EdgeOptions opt = new EdgeOptions();
         opt.setCapability("headless", true);
-       // opt.setCapability("remote-debugging-port", 185);
+        opt.setCapability("remote-debugging-port", 9222);
+        opt.setCapability("disable-setuid-sandbox", true);
         opt.setCapability("disable-dev-shm-usage" , true);
         opt.setCapability("no-sandbox", true);
         opt.setCapability("verbose" , true);
@@ -44,6 +45,7 @@ public class EdgeTest {
         opt.setCapability("platform", "LINUX");
                 System.setProperty("webdriver.edge.driver", "./msedgedriver");
         System.setProperty("webdriver.edge.bin", "/usr/bin/microsoft-edge-beta");
+        System.out.println(opt.asMap());
         WebDriver driver =  new EdgeDriver(opt);
 
 
