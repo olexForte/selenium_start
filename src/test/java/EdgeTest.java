@@ -40,7 +40,10 @@ public class EdgeTest {
         opt.setCapability("disable-dev-shm-usage" , true);
         opt.setCapability("no-sandbox", true);
         opt.setCapability("verbose" , true);
+        opt.setCapability("binary", "/usr/bin/microsoft-edge-beta");
+        opt.setCapability("platform", "LINUX");
                 System.setProperty("webdriver.edge.driver", "./msedgedriver");
+        System.setProperty("webdriver.edge.bin", "/usr/bin/microsoft-edge-beta");
         WebDriver driver =  new EdgeDriver(opt);
 
 
