@@ -36,7 +36,7 @@ public class EdgeTest {
 //
         EdgeOptions opt = new EdgeOptions();
         opt.setCapability("headless", true);
-        opt.setCapability("remote-debugging-port", 185);
+       // opt.setCapability("remote-debugging-port", 185);
         opt.setCapability("disable-dev-shm-usage" , true);
         opt.setCapability("verbose" , true);
                 System.setProperty("webdriver.edge.driver", "./msedgedriver");
